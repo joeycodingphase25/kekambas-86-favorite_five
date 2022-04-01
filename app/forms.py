@@ -7,5 +7,13 @@ class SignUpForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    confirm_pass = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('Password')])
+    confirm_pass = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
+
+
+class RegisterAddress(FlaskForm):
+    first_name = StringField('first name', validators=[DataRequired()])
+    last_name = StringField('last name', validators=[DataRequired()])
+    address = StringField('address', validators=[DataRequired()])
+    submit = SubmitField('Sign Up')
+

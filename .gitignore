@@ -4,3 +4,7 @@ __pycache__/
 #  WE DO NOT WANT !!!!
 
 .env
+
+migrations/
+
+app.db

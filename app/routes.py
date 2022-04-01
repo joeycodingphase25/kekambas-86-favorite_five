@@ -1,6 +1,8 @@
+# from crypt import methods
 from app import app
-from flask import render_template
-from app.forms import SignUpForm
+from flask import redirect, render_template, url_for
+from app.forms import SignUpForm, RegisterAddress
+from app.models import User, Post, Address
 
 @app.route('/')
 def index():
@@ -43,6 +45,14 @@ def index():
 def signup():
     title = 'Sign Up'
     form = SignUpForm()
+    if form.validate_on_submit(): # check if post request AND post is valid
+        email = form.email.data
+        username = form.username.data
+        password = form.password.data
+        # Create User object
+        new_user = User(email=email, username=username, password=password)
+        return redirect(url_for('index'))
+
     return render_template('signup.html', title=title, form=form)
 
 
@@ -50,3 +60,16 @@ def signup():
 def login():
     title = 'Log In'
     return render_template('login.html', title=title)
+
+@app.route('/phone-address', methods=['GET', 'POST'])
+def phone_address():
+    title = 'Please Register'
+    form = RegisterAddress() #RegisterAdressForm?
+    addresses = Address.query.all()
+    if form.validate_on_submit():
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        address = form.address.data
+        Address(first_name=first_name, last_name=last_name, address=address)
+        return redirect(url_for('index'))
+    return render_template('phone-address.html', title=title, form=form, addressess = addresses)
